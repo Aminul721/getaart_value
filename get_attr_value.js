@@ -98,94 +98,22 @@ function animationFun(animation_item) {
     let currentIndex = Array.from(animation_item.querySelectorAll('.number')).findIndex((animation_span) =>
         animation_span.classList.contains('current')
     );
-
     let transformHeight = height * currentIndex + 'px';
     animation_item.style.transform = `translateY(-${transformHeight})`;
 }
 
-// skill__progress
-// document.querySelectorAll('.skill__progressdynamic').forEach(function(skillValue){
-//     const sillWidth = skillValue.getAttribute("data-percent");
-//     sillWidthNumber = parseInt(sillWidth);
-//     skillValue.style.width = sillWidthNumber + '%';
-//     console.log(sillWidthNumber, skillValue.style.width)
-// });
+// vertical increement number js
+const scrolls = document.querySelectorAll(".skill__scroll");
 
-/*document.querySelectorAll('.skill__progressdynamic').forEach(function(skillValue) {
-    const sillWidth = skillValue.getAttribute("data-percent");
-    const sillWidthNumber = parseInt(sillWidth);
-  
-    // Get the computed width of the element (considering applied styles)
-    const computedStyle = getComputedStyle(skillValue);
-    const actualWidth = computedStyle.getPropertyValue('width');
-  
-    console.log(actualWidth); // This will log the actual width in pixels (or other units)
-  });
-  */
-
-  /*document.querySelectorAll('.skill__progressdynamic').forEach(function(skillValue, index) {
-    const sillWidth = skillValue.getAttribute("data-percent");
-    const sillWidthNumber = parseInt(sillWidth);
-  
-    // Define a function to handle width logic
-    function setWidth() {
-      skillValue.style.width = sillWidthNumber + '%'; // Example: Set width
-      const computedStyle = getComputedStyle(skillValue);
-      const actualWidth = computedStyle.getPropertyValue('width'); // Example: Get computed width
-  
-      console.log(skillValue.style.width, actualWidth); // Log width (adjust for computed width approach)
+scrolls.forEach((item) => {
+    const countValue = item.getAttribute("data-count");
+    let initialValue = 0;
+    setInterval(() => {
+    initialValue += 1;
+    if (initialValue <= countValue) {
+        item.style.width = `${initialValue}%`;
+        item.children[0].style.left = `${initialValue}%`;
+        item.children[0].innerHTML = `${initialValue}%`;
     }
-  
-    // Apply the delay using setTimeout
-    setTimeout(setWidth, index * 2000); // Delay based on loop index
-  });*/
-
-  function setWidth(skillValue, sillWidthNumber) {
-    // Set initial width to 0
-    skillValue.style.width = '0%';
-  
-    // Calculate the total number of increments for 3000ms animation with 1% increments
-    const totalIncrements = Math.ceil(sillWidthNumber / 1); // Assuming 1% increments (modify for larger increments)
-  
-    // Function to handle width incrementation
-    function incrementWidth(currentIncrement) {
-      const currentWidth = parseFloat(computedStyle.getPropertyValue('width'));
-  
-      // Check if animation is complete
-      if (currentIncrement >= totalIncrements) {
-        skillValue.style.width = sillWidthNumber + '%'; // Set final width
-        return; // Stop incrementing
-      }
-  
-      const targetWidth = Math.min(currentWidth + 1, sillWidthNumber); // Increment by 1% (modify for larger increments), ensure it doesn't exceed target
-  
-      skillValue.style.width = targetWidth + '%';
-  
-      // Calculate delay based on remaining increments and desired animation duration
-      const remainingIncrements = totalIncrements - currentIncrement;
-      const delay = Math.max(500 * (remainingIncrements / totalIncrements), 1); // Adjust delay for smoothness
-  
-      // Schedule the next increment with the calculated delay
-      setTimeout(() => incrementWidth(currentIncrement + 1), delay);
-    }
-  
-    // Get the computed width considering applied CSS styles
-    const computedStyle = getComputedStyle(skillValue);
-  
-    // Start the width incrementation process with no delay
-    incrementWidth(0);
-  
-    // Optional final width logging
-    console.log(`Initial width: 0`);
-    skillValue.addEventListener('transitionend', () => {
-      console.log(`Final width: ${computedStyle.getPropertyValue('width')}`);
-    });
-  }
-  
-  document.querySelectorAll('.skill__progressdynamic').forEach(function(skillValue) {
-    const sillWidth = skillValue.getAttribute("data-percent");
-    const sillWidthNumber = parseInt(sillWidth);
-  
-    setWidth(skillValue, sillWidthNumber);
-  });
-  
+    }, 10);
+});
